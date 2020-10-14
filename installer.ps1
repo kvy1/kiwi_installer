@@ -1,29 +1,10 @@
-Function Get-Folder($initialDirectory="")
+$ProgramName = "*Blade & Soul*"
+$link = "https://www.bladeandsoul.com"
+$install = Get-ChildItem "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\*\Products\*\InstallProperties" | Where-Object { $_.getValue('DisplayName') -like $ProgramName } | Where-Object { $_.getValue('HelpLink') -like $link } | ForEach-Object { $_.getValue('InstallLocation') }
+$x = $install
 
-{
-    [System.Reflection.Assembly]::LoadWithPartialName("System.windows.forms")|Out-Null
-
-    $foldername = New-Object System.Windows.Forms.FolderBrowserDialog
-    $foldername.Description = "Select Your BNS Folder"
-    $foldername.rootfolder = "MyComputer"
-    $foldername.SelectedPath = $initialDirectory
-
-    if($foldername.ShowDialog() -eq "OK")
-    {
-        $x += $foldername.SelectedPath
-    }
-    return $x
-}
-
-$x = Get-Folder
-
-if(!(Test-Path $x'\bin'))
-{
-Write-Host "Wrong Folder"
-}
-else
-{
 'Courtesy of kiwi :3'
+
 $Urly = "https://raw.githubusercontent.com/kvy1/kiwi/master/git.txt"
 $ZipFiley = 'url.txt'
 $Destination= $x
@@ -60,4 +41,3 @@ Remove-Item $x\Public -recurse -Force
 Remove-Item $x\url.txt -Force
 
 Read-Host "Finished uwu :3"
-}
