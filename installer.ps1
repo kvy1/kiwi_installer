@@ -29,3 +29,4 @@ Move-Item -Path $x'\use-ingame-login.xml' -Destination $w'\bns\patches' -Force
 Remove-Item $x\$ZipFile
 Remove-Item $x\url.txt -Force
 Remove-Item $x\patches.xml -Force
+'Finished! Have fun guys uwu'
