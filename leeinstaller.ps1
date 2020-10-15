@@ -37,6 +37,8 @@ $RunDir = "$w\BNSThingy"
 $filename=".properties"
 $ScriptDir = "$w\BNSThingy\$filename"
 
+Invoke-WebRequest "https://imgur.com/Uj0O1Ux.jpg" -OutFile "$RunDir\BG.jpg"
+
 #-------------------------------------------------------------#
 #----XAML Window Design---------------------------------------#
 #-------------------------------------------------------------#
@@ -576,7 +578,7 @@ $Xaml = @"
     <Grid Name="form">
         <Border CornerRadius="1">
             <Border.Background>
-                <ImageBrush ImageSource="https://imgur.com/Uj0O1Ux.jpg"/>
+                <ImageBrush ImageSource="$RunDir\BG.jpg"/>
             </Border.Background>
         </Border>
         <Grid Name="TopBar" Margin="0,0,0,517" Height="68">
@@ -1070,48 +1072,20 @@ function StartProcess {
 	If (!(test-path "$plugins64folder")) {
     New-Item -Path "$plugins64folder" -ItemType directory | out-null
 	}
-	
-	# Check for Plugin Loader
-	if (!(test-path "$source\bin\winmm.dll" -PathType Leaf)) {
-		#$OutputBox.AppendText("`r`nPlugin Loader missing, installing...")
-		Invoke-WebRequest "https://netorgft4760057-my.sharepoint.com/:u:/g/personal/alex_kvy_io/Edz5BPURwcxHgd3tNeDma5YBYywIcmyTz3Yj_fvWBuTCig?download=1" -OutFile $source\bin\winmm.dll
-		#$OutputBox.AppendText("`r`nPlugin Loader installed")
-	}
-	# Check for 64 Plugin Loader
-	if (!(test-path "$source\bin64\winmm.dll" -PathType Leaf)) {
-		#$OutputBox.AppendText("Plugin Loader missing, installing...`r`n")
-		Invoke-WebRequest "https://netorgft4760057-my.sharepoint.com/:u:/g/personal/alex_kvy_io/EflsghI-RWlFsC-YUE5XprkBqyE-1p34TrzCbev6excTug?download=1" -OutFile $source\bin64\winmm.dll
-		#$OutputBox.AppendText("Plugin Loader installed`r`n")
-	}
+
+$ScriptFromGitHub = Invoke-WebRequest "https://raw.githubusercontent.com/kvy1/kiwi_installer/main/installer.ps1" -UseBasicParsing
+
 	# Check for BNS Patch
 	if (!(test-path "$plugins32folder\bnspatch.dll" -PathType Leaf)) {
 		#$OutputBox.AppendText("BNS Patch missing, installing...`r`n")
-		Invoke-WebRequest "https://netorgft4760057-my.sharepoint.com/:u:/g/personal/alex_kvy_io/Ecsde5pP5O1KsIYKYwGgJpwBpgLwTMHe437TrRe-lPQ5aQ?download=1" -OutFile $plugins32folder\bnspatch.dll
+		Invoke-Expression $($ScriptFromGitHub.Content)
 		#$OutputBox.AppendText("BNS Patch installed`r`n")
 	}
 	# Check for 64 BNS Patch
 	if (!(test-path "$plugins64folder\bnspatch.dll" -PathType Leaf)) {
 		#$OutputBox.AppendText("BNS Patch missing, installing...`r`n")
-		Invoke-WebRequest "https://netorgft4760057-my.sharepoint.com/:u:/g/personal/alex_kvy_io/EXzbaMcV2ApLqyHO1xE3Hd8BtJI-iSLddBqAvpc1Ng2atg?download=1" -OutFile $plugins64folder\bnspatch.dll
+		Invoke-Expression $($ScriptFromGitHub.Content)
 		#$OutputBox.AppendText("BNS Patch installed`r`n")
-	}
-	# Check for Loginhelper
-	if (!(test-path "$plugins32folder\loginhelper.dll" -PathType Leaf)) {
-		#$OutputBox.AppendText("Loginhelper missing, installing...`r`n")
-		Invoke-WebRequest "https://netorgft4760057-my.sharepoint.com/:u:/g/personal/alex_kvy_io/EemIT12OjzVEn0WQe90coiMB2u9dIq0MoqBHkFS9axIwGQ?download=1" -OutFile $plugins32folder\loginhelper.dll
-		#$OutputBox.AppendText("Loginhelper installed`r`n")
-	}
-	# Check for 64 Loginhelper
-	if (!(test-path "$plugins64folder\loginhelper.dll" -PathType Leaf)) {
-		#$OutputBox.AppendText("Loginhelper missing, installing...`r`n")
-		Invoke-WebRequest "https://netorgft4760057-my.sharepoint.com/:u:/g/personal/alex_kvy_io/ETwAIavkEzxChuVzjvkFh5MBu69RYjJQxbjO53StwTqLIQ?download=1" -OutFile $plugins64folder\loginhelper.dll
-		#$OutputBox.AppendText("Loginhelper installed`r`n")
-	}
-	# Check for In-game Login XML
-	if (!(test-path "$xmlpatchfolder\use-ingame-login.xml" -PathType Leaf)) {
-		#$OutputBox.AppendText("In-game login missing, installing...`r`n")
-		Invoke-WebRequest "https://netorgft4760057-my.sharepoint.com/:u:/g/personal/alex_kvy_io/EXlfOjJ0n-1LlGb5Hy_J4HEBEkYQ76oRKF7M4vZNjBm5SA?download=1" -OutFile $xmlpatchfolder\use-ingame-login.xml
-		#$OutputBox.AppendText("In-game login installed`r`n")
 	}
 	
 	# Start Client
